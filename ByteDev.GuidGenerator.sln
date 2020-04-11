@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2026
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30002.166
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ByteDev.GuidGenerator.Ui", "ByteDev.GuidGenerator.Ui\ByteDev.GuidGenerator.Ui.csproj", "{C72463E6-741C-4690-B2AE-570AED46EC25}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ByteDev.GuidGenerator.Ui", "src\ByteDev.GuidGenerator.Ui\ByteDev.GuidGenerator.Ui.csproj", "{C72463E6-741C-4690-B2AE-570AED46EC25}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{B02FDBD3-0A23-4CBB-88EE-E70513582EEC}"
 	ProjectSection(SolutionItems) = preProject
-		..\README.md = ..\README.md
+		README.md = README.md
 	EndProjectSection
 EndProject
 Global

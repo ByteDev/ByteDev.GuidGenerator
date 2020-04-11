@@ -4,16 +4,15 @@ namespace ByteDev.GuidGenerator.Ui
 {
 	public class GuidFormatter
 	{
-		public bool IsUppercase { get;  set; }
+		public bool IsUppercase { get; set; }
+
 		public bool HasBracketWrapped { get; set; }
+
 		public bool HasHyphens { get; set; }
 
-	    public bool IsGuidEmpty
-	    {
-            get { return Guid == Guid.Empty; }
-	    }
+	    public bool IsGuidEmpty => Guid == Guid.Empty;
 
-	    public Guid Guid { get; set; }
+        public Guid Guid { get; set; }
 
 	    public GuidFormatter(Guid guid)
 		{

@@ -22,7 +22,7 @@ namespace ByteDev.GuidGenerator.Ui
 		{
             var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; 
             
-            Text = $"{AppName} {version.Major}.{version.Minor}";
+            Text = $@"{AppName} {version.Major}.{version.Minor}";
 
             _origTextBackColor = guidTextBox.BackColor;
             _origTextForeColor = guidTextBox.ForeColor;
@@ -74,13 +74,11 @@ namespace ByteDev.GuidGenerator.Ui
 
         private void guidTextBox_TextChanged(object sender, EventArgs e)
         {
-            Guid guid;
-
             var input = guidTextBox.Text
                 .Replace("{", string.Empty)
                 .Replace("}", string.Empty);
 
-            if (!Guid.TryParse(input, out guid))
+            if (!Guid.TryParse(input, out var guid))
             {
                 guidTextBox.BackColor = Color.Red;
                 guidTextBox.ForeColor = Color.White;

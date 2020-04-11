@@ -15,14 +15,15 @@ namespace ByteDev.GuidGenerator.Ui
         /// </summary>
         public static Guid Comb(this Guid source)
         {
-            if (source == default(Guid))
-                throw new ArgumentException("Value is default Guid.", nameof(source));
+            if (source == default)
+                throw new ArgumentException(@"Value is default Guid.", nameof(source));
 
             byte[] dateBytes = BitConverter.GetBytes(DateTime.Now.Ticks);
             byte[] guidBytes = source.ToByteArray();
 
             // copy the last six bytes from the date to the last six bytes of the GUID
             Array.Copy(dateBytes, dateBytes.Length - 7, guidBytes, guidBytes.Length - 7, 6);
+
             return new Guid(guidBytes);
         }
     }
