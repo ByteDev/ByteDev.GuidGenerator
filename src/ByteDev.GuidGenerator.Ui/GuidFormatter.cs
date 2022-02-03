@@ -1,4 +1,5 @@
 ﻿using System;
+using ByteDev.ValueTypes;
 
 namespace ByteDev.GuidGenerator.Ui
 {
@@ -10,52 +11,27 @@ namespace ByteDev.GuidGenerator.Ui
 
 		public bool HasHyphens { get; set; }
 
-	    public bool IsGuidEmpty => Guid == Guid.Empty;
+        public Guid Guid { get; }
 
-        public Guid Guid { get; set; }
-
-	    public GuidFormatter(Guid guid)
+        public GuidFormatter(Guid guid)
 		{
 			Guid = guid;
 		}
 
 	    public string GetAsFormatted()
-	    {
-            var guid = Guid.ToString();
+        {
+            GuidStringFlags flags = 0;
 
-            guid = ModifyCase(guid);
-            guid = ModifyBrackets(guid);
-            guid = ModifyHyphens(guid);
+            if (IsUppercase)
+                flags |= GuidStringFlags.UpperCase;
 
-            return guid;
+            if (HasBracketWrapped)
+                flags |= GuidStringFlags.Brackets;
+
+            if (!HasHyphens)
+                flags |= GuidStringFlags.NoDelimiters;
+
+            return flags == 0 ? Guid.ToString() : Guid.ToString(flags);
         }
-
-	    public override string ToString()
-	    {
-	        return GetAsFormatted();
-	    }
-
-	    private string ModifyHyphens(string guid)
-		{
-			if(!HasHyphens)
-			{
-				guid = guid.Replace("-", string.Empty);
-			}
-			return guid;
-		}
-
-		private string ModifyBrackets(string guid)
-		{
-			if(HasBracketWrapped)
-			{
-				guid = "{" + guid + "}";
-			}
-			return guid;
-		}
-
-		private string ModifyCase(string guid)
-		{
-		    return IsUppercase ? guid.ToUpper() : guid.ToLower();
-		}
-	}
+    }
 }

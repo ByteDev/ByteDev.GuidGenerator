@@ -162,9 +162,9 @@
 
         private System.Windows.Forms.Button generateNewGuidButton;
         private System.Windows.Forms.TextBox guidTextBox;
-        private System.Windows.Forms.CheckBox bracketsCheckBox;
-        private System.Windows.Forms.CheckBox uppercaseCheckBox;
-		private System.Windows.Forms.CheckBox hyphensCheckBox;
+        internal System.Windows.Forms.CheckBox bracketsCheckBox;
+        internal System.Windows.Forms.CheckBox uppercaseCheckBox;
+		internal System.Windows.Forms.CheckBox hyphensCheckBox;
 		private System.Windows.Forms.Label guidLengthLabel;
 		private System.Windows.Forms.Button copyToClipboardButton;
         private System.Windows.Forms.Button emptyGuidButton;

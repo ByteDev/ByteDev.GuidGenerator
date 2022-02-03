@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
+using ByteDev.ValueTypes;
 
 namespace ByteDev.GuidGenerator.Ui
 {
@@ -10,9 +11,10 @@ namespace ByteDev.GuidGenerator.Ui
         private const string AppName = "Guid Generator";
 
         private GuidFormatter _guidFormatter;
+        private GuidFormatterFactory _guidFormatterFactory;
         private Color _origTextBackColor;
         private Color _origTextForeColor;
-
+        
         public MainForm()
         {
             InitializeComponent();
@@ -22,30 +24,32 @@ namespace ByteDev.GuidGenerator.Ui
 		{
             var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; 
             
-            Text = $@"{AppName} {version.Major}.{version.Minor}";
+            Text = $@"{AppName} {version.Major}.{version.Minor}.{version.Revision}";
 
             _origTextBackColor = guidTextBox.BackColor;
             _origTextForeColor = guidTextBox.ForeColor;
 
-            CreateGuidFormatter(Guid.NewGuid());
+            _guidFormatterFactory = new GuidFormatterFactory(this);
+
+            _guidFormatter = _guidFormatterFactory.CreateFor(Guid.NewGuid());
             UpdateGuidText();
         }
 
         private void generateNewGuidButton_Click(object sender, EventArgs e)
         {
-            CreateGuidFormatter(Guid.NewGuid());
+            _guidFormatter = _guidFormatterFactory.CreateFor(Guid.NewGuid());
             UpdateGuidText();
         }
 
         private void emptyGuidButton_Click(object sender, EventArgs e)
         {
-            CreateGuidFormatter(Guid.Empty);
+            _guidFormatter = _guidFormatterFactory.CreateFor(Guid.Empty);
             UpdateGuidText();
         }
 
         private void combButton_Click(object sender, EventArgs e)
         {
-            CreateCombGuidFormatter();
+            _guidFormatter = _guidFormatterFactory.CreateFor(_guidFormatter.Guid.Comb());
             UpdateGuidText();
         }
 
@@ -90,7 +94,7 @@ namespace ByteDev.GuidGenerator.Ui
                 guidTextBox.BackColor = _origTextBackColor;
                 guidTextBox.ForeColor = _origTextForeColor;
 
-                CreateGuidFormatter(guid);
+                _guidFormatter = _guidFormatterFactory.CreateFor(guid);
 
                 guidTextBox.Text = _guidFormatter.GetAsFormatted();
             }
@@ -101,42 +105,18 @@ namespace ByteDev.GuidGenerator.Ui
             ((TextBox)sender).SelectAll();
         }
 
-        private void CreateGuidFormatter(Guid guid)
-        {
-            _guidFormatter = new GuidFormatter(guid)
-            {
-                IsUppercase = uppercaseCheckBox.Checked,
-                HasBracketWrapped = bracketsCheckBox.Checked,
-                HasHyphens = hyphensCheckBox.Checked
-            };
-        }
-
-        private void CreateCombGuidFormatter()
-        {
-            if (_guidFormatter == null)
-            {
-                CreateGuidFormatter(Guid.NewGuid().Comb());
-            }
-            else
-            {
-                if (!_guidFormatter.Guid.IsEmpty())
-                {
-                    var newGuid = _guidFormatter.Guid.Comb();
-                    CreateGuidFormatter(newGuid);
-                }
-            }
-        }
-
         private void UpdateGuidText()
         {
             if (_guidFormatter.Guid.IsEmpty())
             {
                 uppercaseCheckBox.Checked = false;
                 uppercaseCheckBox.Enabled = false;
+                combButton.Enabled = false;
             }
             else
             {
                 uppercaseCheckBox.Enabled = true;
+                combButton.Enabled = true;
             }
             
             guidTextBox.Text = _guidFormatter.GetAsFormatted();
